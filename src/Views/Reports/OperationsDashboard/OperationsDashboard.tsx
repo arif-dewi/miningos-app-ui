@@ -56,6 +56,12 @@ const OperationsDashboard = () => {
     }))
   }, [])
 
+  // Memoize toggle functions to prevent unnecessary re-renders
+  const toggleHashrate = useCallback(() => toggleExpand(CHART_IDS.HASHRATE), [toggleExpand])
+  const toggleConsumption = useCallback(() => toggleExpand(CHART_IDS.CONSUMPTION), [toggleExpand])
+  const toggleEfficiency = useCallback(() => toggleExpand(CHART_IDS.EFFICIENCY), [toggleExpand])
+  const toggleMiners = useCallback(() => toggleExpand(CHART_IDS.MINERS), [toggleExpand])
+
   // Sync state changes to module-level ref for persistence across remounts
   useEffect(() => {
     expandedChartsRef.current = expandedCharts
@@ -82,7 +88,8 @@ const OperationsDashboard = () => {
           isLoading={chartData.hashrate.isLoading}
           nominalValue={chartData.hashrate.nominalValue}
           isExpanded={expandedCharts[CHART_IDS.HASHRATE] ?? false}
-          onToggleExpand={() => toggleExpand(CHART_IDS.HASHRATE)}
+          legendPosition="left"
+          onToggleExpand={toggleHashrate}
         />
 
         <PowerConsumptionChart
@@ -91,7 +98,8 @@ const OperationsDashboard = () => {
           error={chartData.consumption.error}
           isLoading={chartData.consumption.isLoading}
           nominalValue={chartData.consumption.nominalValue}
-          onToggleExpand={() => toggleExpand(CHART_IDS.CONSUMPTION)}
+          legendPosition="left"
+          onToggleExpand={toggleConsumption}
           isExpanded={expandedCharts[CHART_IDS.CONSUMPTION] ?? false}
         />
 
@@ -101,8 +109,9 @@ const OperationsDashboard = () => {
           error={chartData.efficiency.error}
           isLoading={chartData.efficiency.isLoading}
           nominalValue={chartData.efficiency.nominalValue}
+          legendPosition="left"
           isExpanded={expandedCharts[CHART_IDS.EFFICIENCY] ?? false}
-          onToggleExpand={() => toggleExpand(CHART_IDS.EFFICIENCY)}
+          onToggleExpand={toggleEfficiency}
         />
 
         <MinersStatusChart
@@ -111,7 +120,7 @@ const OperationsDashboard = () => {
           isLoading={chartData.miners.isLoading}
           error={chartData.miners.error}
           isExpanded={expandedCharts[CHART_IDS.MINERS] ?? false}
-          onToggleExpand={() => toggleExpand(CHART_IDS.MINERS)}
+          onToggleExpand={toggleMiners}
         />
       </ChartsGrid>
     </DashboardWrapper>

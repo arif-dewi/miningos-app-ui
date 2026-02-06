@@ -7,8 +7,8 @@ import { AUTH_LEVELS, AUTH_PERMISSIONS } from '../../constants/permissions.const
 
 import { EmptyStateContainer } from '@/styles/shared-styles'
 
-const ReportingToolLayout = () => {
-  const { data: featureConfig } = useGetFeatureConfigQuery(undefined)
+const ReportsLayout = () => {
+  const { data: featureConfig } = useGetFeatureConfigQuery()
 
   const isReportingEnabled = featureConfig?.reporting
 
@@ -29,4 +29,4 @@ const ReportingToolLayout = () => {
   )
 }
 
-export default ReportingToolLayout
+export default ReportsLayout

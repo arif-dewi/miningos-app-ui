@@ -143,8 +143,8 @@ export const transformMinersStatusData = (
       legendColor: COLOR.STRONG_GREEN,
     },
     {
-      key: 'notMining' as const,
-      label: 'Not Mining (Sleep + Error)',
+      key: 'error' as const,
+      label: 'Error',
       backgroundColor: [`${COLOR.RED}4d`, `${COLOR.RED}1a`], // red gradient (30% to 10% opacity)
       borderColor: COLOR.RED,
       legendColor: COLOR.RED,
@@ -155,6 +155,13 @@ export const transformMinersStatusData = (
       backgroundColor: [`${COLOR.WHITE}4d`, `${COLOR.WHITE}1a`], // white gradient (30% to 10% opacity)
       borderColor: COLOR.WHITE,
       legendColor: COLOR.WHITE,
+    },
+    {
+      key: 'sleep' as const,
+      label: 'Sleep',
+      backgroundColor: [`${COLOR.SLEEP_BLUE}4d`, `${COLOR.SLEEP_BLUE}1a`], // blue gradient (30% to 10% opacity)
+      borderColor: COLOR.SLEEP_BLUE,
+      legendColor: COLOR.SLEEP_BLUE,
     },
     {
       key: 'maintenance' as const,

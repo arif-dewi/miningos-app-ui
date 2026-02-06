@@ -1,9 +1,11 @@
 import _maxBy from 'lodash/maxBy'
+import { memo } from 'react'
 
 import { createHashrateFormatter, getHashrateDisplayUnit } from '../utils'
 
 import { ChartCardLayout } from './ChartCardLayout'
 
+import { ChartLegendPosition } from '@/app/utils/utils.types'
 import SiteOperationsChart from '@/Components/SiteOperationChart/SiteOperationChart'
 import { CHART_COLORS } from '@/constants/colors'
 
@@ -20,15 +22,17 @@ interface HashrateChartProps {
   isExpanded: boolean
   onToggleExpand: VoidFunction
   hasHeaderPaddingLeft?: boolean
+  legendPosition?: ChartLegendPosition
 }
 
-export const HashrateChart = ({
+const HashrateChartComponent = ({
   data,
   error,
   isLoading,
   isExpanded,
   nominalValue,
   hasHeaderPaddingLeft,
+  legendPosition,
   onToggleExpand,
 }: HashrateChartProps) => {
   // Determine the appropriate unit based on the max value in the data
@@ -64,6 +68,7 @@ export const HashrateChart = ({
         unit={displayUnit}
         nominalValue={nominalValue ?? undefined}
         isLoading={isLoading}
+        legendPosition={legendPosition}
         legend={[
           { color: CHART_COLORS.METALLIC_BLUE, label: 'Hashrate' },
           ...(nominalValue ? [{ color: CHART_COLORS.red, label: 'Nominal Hashrate' }] : []),
@@ -73,3 +78,5 @@ export const HashrateChart = ({
     </ChartCardLayout>
   )
 }
+
+export const HashrateChart = memo(HashrateChartComponent)

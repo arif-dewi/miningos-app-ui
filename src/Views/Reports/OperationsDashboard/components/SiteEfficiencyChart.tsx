@@ -1,11 +1,12 @@
 import Tooltip from 'antd/es/tooltip'
-import { ReactNode } from 'react'
+import { ReactNode, memo } from 'react'
 
 import { InfoIcon } from '../styles'
 import { formatEfficiency } from '../utils'
 
 import { ChartCardLayout } from './ChartCardLayout'
 
+import { ChartLegendPosition } from '@/app/utils/utils.types'
 import SiteOperationsChart from '@/Components/SiteOperationChart/SiteOperationChart'
 import { CHART_COLORS } from '@/constants/colors'
 import { UNITS } from '@/constants/units'
@@ -25,9 +26,10 @@ interface SiteEfficiencyChartProps {
   chartHeader?: ReactNode
   onToggleExpand: VoidFunction
   hasHeaderPaddingLeft?: boolean
+  legendPosition?: ChartLegendPosition
 }
 
-export const SiteEfficiencyChart = ({
+const SiteEfficiencyChartComponent = ({
   data,
   error,
   isLoading,
@@ -37,6 +39,7 @@ export const SiteEfficiencyChart = ({
   onToggleExpand,
   hasExpandedButton,
   hasHeaderPaddingLeft,
+  legendPosition,
 }: SiteEfficiencyChartProps) => {
   const titleExtra = (
     <Tooltip title="This is site efficiency, considering both miners and additional systems (Cooling etc)">
@@ -67,6 +70,7 @@ export const SiteEfficiencyChart = ({
         unit={UNITS.EFFICIENCY_W_PER_TH_S}
         nominalValue={nominalValue ?? undefined}
         isLoading={isLoading}
+        legendPosition={legendPosition}
         legend={[
           { color: CHART_COLORS.METALLIC_BLUE, label: 'Actual Site Efficiency' },
           ...(nominalValue ? [{ color: CHART_COLORS.red, label: 'Nominal Site Efficiency' }] : []),
@@ -77,3 +81,5 @@ export const SiteEfficiencyChart = ({
     </ChartCardLayout>
   )
 }
+
+export const SiteEfficiencyChart = memo(SiteEfficiencyChartComponent)

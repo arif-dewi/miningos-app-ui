@@ -1,8 +1,10 @@
 import { getMinersFormattedJson } from './ExportPduData.helper'
 
-const connectedMiners = [
+import type { Device } from '@/app/utils/deviceUtils/types'
+
+const connectedMiners: Device[] = [
   {
-    id: 1,
+    id: '1',
     last: {
       snap: {
         stats: {
@@ -44,7 +46,7 @@ describe('getMinersFormattedJson', () => {
 
     expect(formattedMiners).toEqual([
       {
-        id: 1,
+        id: '1',
         type: 'miner_type',
         site: 'site1',
         container: 'container1',

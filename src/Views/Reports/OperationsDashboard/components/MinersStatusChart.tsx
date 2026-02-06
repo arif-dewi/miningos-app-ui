@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { ChartCardLayout } from './ChartCardLayout'
 
 import BarChart, { type BarChartData } from '@/Components/BarChart/BarChart'
@@ -23,7 +25,7 @@ interface MinersStatusChartProps {
   data: MinersStatusData | null
 }
 
-export const MinersStatusChart = ({
+const MinersStatusChartComponent = ({
   data,
   error,
   isLoading,
@@ -54,3 +56,5 @@ export const MinersStatusChart = ({
     />
   </ChartCardLayout>
 )
+
+export const MinersStatusChart = memo(MinersStatusChartComponent)

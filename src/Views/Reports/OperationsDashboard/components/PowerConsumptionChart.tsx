@@ -1,9 +1,11 @@
 import _isFinite from 'lodash/isFinite'
+import { memo } from 'react'
 
 import { formatPowerConsumption } from '../utils'
 
 import { ChartCardLayout } from './ChartCardLayout'
 
+import { ChartLegendPosition } from '@/app/utils/utils.types'
 import SiteOperationsChart from '@/Components/SiteOperationChart/SiteOperationChart'
 import { CHART_COLORS } from '@/constants/colors'
 import { UNITS } from '@/constants/units'
@@ -21,9 +23,10 @@ interface PowerConsumptionChartProps {
   isExpanded: boolean
   onToggleExpand: VoidFunction
   hasHeaderPaddingLeft?: boolean
+  legendPosition?: ChartLegendPosition
 }
 
-export const PowerConsumptionChart = ({
+const PowerConsumptionChartComponent = ({
   data,
   hasHeaderPaddingLeft,
   nominalValue,
@@ -31,6 +34,7 @@ export const PowerConsumptionChart = ({
   error,
   isExpanded,
   onToggleExpand,
+  legendPosition,
 }: PowerConsumptionChartProps) => (
   <ChartCardLayout
     id="consumption"
@@ -51,6 +55,7 @@ export const PowerConsumptionChart = ({
       unit={UNITS.ENERGY_MW}
       nominalValue={nominalValue ?? undefined}
       isLoading={isLoading}
+      legendPosition={legendPosition}
       legend={[
         { color: CHART_COLORS.METALLIC_BLUE, label: 'Power Consumption' },
         ...(_isFinite(nominalValue)
@@ -61,3 +66,5 @@ export const PowerConsumptionChart = ({
     />
   </ChartCardLayout>
 )
+
+export const PowerConsumptionChart = memo(PowerConsumptionChartComponent)

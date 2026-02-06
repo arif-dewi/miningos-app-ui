@@ -1,7 +1,21 @@
 import _map from 'lodash/map'
-import PropTypes from 'prop-types'
 
-import { LegendContainer, LegendItem, LegendColorBox, LegendLabel } from './Legend.style'
+import { LegendColorBox, LegendContainer, LegendItem, LegendLabel } from './Legend.style'
+
+export interface LegendDataset {
+  label: string
+  borderColor?: string
+  backgroundColor?: string
+  _legendColor?: string
+}
+
+export interface LegendProps {
+  datasets: LegendDataset[]
+  hiddenDatasets?: number[]
+  onToggleDataset?: (datasetIndex: number) => void
+  usePointStyle?: boolean
+  forceRow?: boolean
+}
 
 /**
  * Custom HTML legend component for charts
@@ -13,11 +27,9 @@ const Legend = ({
   onToggleDataset,
   usePointStyle = false,
   forceRow = false,
-}) => {
-  const handleClick = (datasetIndex) => {
-    if (onToggleDataset) {
-      onToggleDataset(datasetIndex)
-    }
+}: LegendProps) => {
+  const handleClick = (datasetIndex: number) => {
+    onToggleDataset?.(datasetIndex)
   }
 
   const hasMany = datasets.length > 3
@@ -41,21 +53,6 @@ const Legend = ({
       })}
     </LegendContainer>
   )
-}
-
-Legend.propTypes = {
-  datasets: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      borderColor: PropTypes.string,
-      backgroundColor: PropTypes.string,
-      _legendColor: PropTypes.string,
-    }),
-  ).isRequired,
-  hiddenDatasets: PropTypes.arrayOf(PropTypes.number),
-  onToggleDataset: PropTypes.func,
-  usePointStyle: PropTypes.bool,
-  forceRow: PropTypes.bool,
 }
 
 export default Legend

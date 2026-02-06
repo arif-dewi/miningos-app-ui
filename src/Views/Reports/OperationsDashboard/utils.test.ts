@@ -56,11 +56,12 @@ describe('OperationsDashboard.utils', () => {
 
       const result = transformMinersStatusData(aggregatedData)
 
-      expect(result.dataset).toHaveLength(4)
+      expect(result.dataset).toHaveLength(5)
       expect(result.dataset[0].label).toBe('Online')
-      expect(result.dataset[1].label).toBe('Not Mining (Sleep + Error)')
+      expect(result.dataset[1].label).toBe('Error')
       expect(result.dataset[2].label).toBe('Offline')
-      expect(result.dataset[3].label).toBe('Maintenance')
+      expect(result.dataset[3].label).toBe('Sleep')
+      expect(result.dataset[4].label).toBe('Maintenance')
 
       // Check that each dataset has the correct stackGroup
       expect(result.dataset[0].stackGroup).toBe('miners')
@@ -69,13 +70,15 @@ describe('OperationsDashboard.utils', () => {
       // Check that data is structured correctly with date labels as keys
       expect(result.dataset[0]['01-01']).toBeDefined()
       expect((result.dataset[0]['01-01'] as { value: number }).value).toBe(100)
-      expect((result.dataset[1]['01-01'] as { value: number }).value).toBe(7)
+      expect((result.dataset[1]['01-01'] as { value: number }).value).toBe(0)
       expect((result.dataset[2]['01-01'] as { value: number }).value).toBe(3)
-      expect((result.dataset[3]['01-01'] as { value: number }).value).toBe(10)
+      expect((result.dataset[3]['01-01'] as { value: number }).value).toBe(0)
+      expect((result.dataset[4]['01-01'] as { value: number }).value).toBe(10)
 
       // Check second day
       expect((result.dataset[0]['01-02'] as { value: number }).value).toBe(105)
-      expect((result.dataset[1]['01-02'] as { value: number }).value).toBe(4)
+      expect((result.dataset[1]['01-02'] as { value: number }).value).toBe(0)
+      expect((result.dataset[2]['01-02'] as { value: number }).value).toBe(2)
     })
 
     it('should handle timestamp range strings (e.g., "1704067200000-1704153599999")', () => {
@@ -102,7 +105,7 @@ describe('OperationsDashboard.utils', () => {
 
       const result = transformMinersStatusData(aggregatedData)
 
-      expect(result.dataset).toHaveLength(4)
+      expect(result.dataset).toHaveLength(5)
       expect(result.dataset[0].label).toBe('Online')
 
       // Check that date labels are correctly extracted from range strings
@@ -136,7 +139,7 @@ describe('OperationsDashboard.utils', () => {
 
       const result = transformMinersStatusData(aggregatedData)
 
-      expect(result.dataset).toHaveLength(4)
+      expect(result.dataset).toHaveLength(5)
       expect(result.dataset[0]['01-01']).toBeDefined()
       expect(result.dataset[0]['01-02']).toBeDefined()
     })
@@ -170,7 +173,7 @@ describe('OperationsDashboard.utils', () => {
         aggregatedData as unknown as Parameters<typeof transformMinersStatusData>[0],
       )
 
-      expect(result.dataset).toHaveLength(4)
+      expect(result.dataset).toHaveLength(5)
       // Only the valid entry should be included
       expect(result.dataset[0]['01-01']).toBeDefined()
       expect((result.dataset[0]['01-01'] as { value: number }).value).toBe(100)

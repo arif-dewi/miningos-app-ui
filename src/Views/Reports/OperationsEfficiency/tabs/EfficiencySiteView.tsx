@@ -57,6 +57,7 @@ const EfficiencySiteView = () => {
         nominalValue={efficiency.nominalValue}
         isLoading={efficiency.isLoading}
         error={efficiency.error}
+        legendPosition="left"
         hasExpandedButton={false}
         onToggleExpand={() => {}}
         chartHeader={
