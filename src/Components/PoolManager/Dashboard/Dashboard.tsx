@@ -63,7 +63,7 @@ const Dashboard = () => {
   }).valueOf()
 
   // Fetch alerts once without polling - not critical real-time data
-  const { data: alertThingsData, isLoading: isAlertThingsDataLoading } = useGetListThingsQuery(
+  const { data: alertThingsData } = useGetListThingsQuery(
     {
       query: JSON.stringify({
         'last.alerts': {
@@ -85,14 +85,17 @@ const Dashboard = () => {
   )
 
   const alertThingsArray = _isArray(alertThingsData) ? alertThingsData : []
-  const firstThing = _head(alertThingsArray)
+  const things = _head(alertThingsArray) ?? []
 
-  const thingAlerts: Alert[] = firstThing
-    ? _flatMap(firstThing, (item) => ({
-        code: _get(item, ['code']),
-        ..._head(_get(item, ['last', 'alerts'], [])),
-      }))
-    : []
+  // Extract all alerts from all things
+  const thingAlerts: Alert[] = _flatMap(things, (item) => {
+    const itemAlerts = _get(item, ['last', 'alerts'], []) as Alert[]
+    const code = _get(item, ['code'])
+    return _map(itemAlerts, (alert) => ({
+      ...alert,
+      code,
+    }))
+  })
 
   const alerts: Alert[] = _slice(
     _filter(thingAlerts, (alert) => alertsNeeded.has(alert.name)),
