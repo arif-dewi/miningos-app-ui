@@ -85,7 +85,7 @@ interface DataPoint {
 export const useOperationsDashboardData = (dateRange: DateRange): OperationsDashboardData => {
   // In demo mode, always use the fixed date range from when mock data was captured
   // This ensures charts display data regardless of the selected date range
-  const fixedDateRange = isDemoMode()
+  const fixedDateRange = isDemoMode
     ? {
         start: 1769025600000, // Jan 21, 2026 20:00:00 UTC (Jan 22 00:00 UTC+4)
         end: 1769630399999, // Jan 28, 2026 19:59:59 UTC (Jan 28 23:59:59 UTC+4)
