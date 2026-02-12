@@ -110,8 +110,9 @@ const MinersActivityChart: FC<MinersActivityChartProps> = ({
     )
   }
 
-  // Show loading skeleton only when actually loading, not when showing empty data in demo mode
-  if (isLoading || (_isEmpty(displayData) && !isError)) {
+  // Show loading skeleton only when actually loading
+  // Don't show loading if data is simply empty after successful load
+  if (isLoading) {
     return (
       <ChartLoadingSkeleton
         minHeight={large ? SKELETON_MIN_HEIGHT_LARGE : SKELETON_MIN_HEIGHT_DEFAULT}
