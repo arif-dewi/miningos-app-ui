@@ -41,7 +41,6 @@ import {
 } from './Dashboard.styles'
 
 import { useGetListThingsQuery } from '@/app/services/api'
-import { Spinner } from '@/Components/Spinner/Spinner'
 import { SEVERITY_COLORS } from '@/constants/alerts'
 import { COLOR } from '@/constants/colors'
 import { ALERT_TYPE_POOL_NAME } from '@/constants/deviceConstants'
@@ -59,25 +58,31 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const { minersAmount, isLoading: isStatsLoading } = useHeaderStats()
 
+  // Skip alerts query for Pool Manager dashboard - not critical data
   const alertsFilterTime = sub(new Date(), {
     days: 5,
   }).valueOf()
 
-  const { data: alertThingsData, isLoading: isAlertThingsDataLoading } = useGetListThingsQuery({
-    query: JSON.stringify({
-      'last.alerts': {
-        $elemMatch: {
-          name: {
-            $in: [...alertsNeeded],
-          },
-          createdAt: {
-            $gt: alertsFilterTime,
+  const { data: alertThingsData, isLoading: isAlertThingsDataLoading } = useGetListThingsQuery(
+    {
+      query: JSON.stringify({
+        'last.alerts': {
+          $elemMatch: {
+            name: {
+              $in: [...alertsNeeded],
+            },
+            createdAt: {
+              $gt: alertsFilterTime,
+            },
           },
         },
-      },
-    }),
-    status: 1,
-  })
+      }),
+      status: 1,
+    },
+    {
+      skip: true, // Skip alerts query to reduce unnecessary requests
+    },
+  )
 
   const alertThingsArray = _isArray(alertThingsData) ? alertThingsData : []
   const firstThing = _head(alertThingsArray)
