@@ -76,8 +76,8 @@ const Dashboard = () => {
       limit: 50,
       fields: JSON.stringify({
         'last.alerts': 1,
+        'info.serialNum': 1,
         id: 1,
-        code: 1,
       }),
     },
     {
@@ -107,7 +107,10 @@ const Dashboard = () => {
 
   const recentAlerts: Alert[] = _filter(
     sortedAlerts,
-    (alert: Alert) => alert.createdAt && Number(alert.createdAt) > alertsFilterTime,
+    (alert: Alert) =>
+      alert.severity === 'critical' &&
+      alert.createdAt &&
+      Number(alert.createdAt) > alertsFilterTime,
   ) as Alert[]
   
   const alerts: Alert[] = _slice(recentAlerts, 0, MAX_ALERTS_DISPLAYED) as Alert[]
