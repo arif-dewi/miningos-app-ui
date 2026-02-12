@@ -58,11 +58,11 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const { minersAmount, isLoading: isStatsLoading } = useHeaderStats()
 
-  // Skip alerts query for Pool Manager dashboard - not critical data
   const alertsFilterTime = sub(new Date(), {
     days: 5,
   }).valueOf()
 
+  // Fetch alerts once without polling - not critical real-time data
   const { data: alertThingsData, isLoading: isAlertThingsDataLoading } = useGetListThingsQuery(
     {
       query: JSON.stringify({
@@ -80,7 +80,7 @@ const Dashboard = () => {
       status: 1,
     },
     {
-      skip: true, // Skip alerts query to reduce unnecessary requests
+      pollingInterval: 0, // Disable polling - fetch once only
     },
   )
 
