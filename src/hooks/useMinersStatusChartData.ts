@@ -74,6 +74,13 @@ export const useMinersStatusChartData = (): UseMinersStatusChartDataReturn => {
       ]
     : [startOfDay(dateRange[0]), endOfDay(dateRange[1])]
 
+  // In demo mode, always use the fixed date range from when mock data was captured
+  // This ensures charts display data regardless of the selected date range
+  const isDemoMode = import.meta.env.VITE_USE_MOCKDATA === 'true'
+  const [queryStart, queryEnd] = isDemoMode
+    ? [1769025600000, 1769630399999] // Jan 21-28, 2026 (fixed demo data range)
+    : [start.getTime(), end.getTime()]
+
   // Fetch miners count data - daily aggregation with average from backend
   const {
     data: rawMinersData,
@@ -84,8 +91,8 @@ export const useMinersStatusChartData = (): UseMinersStatusChartDataReturn => {
     key: 'stat-3h',
     type: 'miner',
     tag: 't-miner',
-    start: start.getTime(),
-    end: end.getTime(),
+    start: queryStart,
+    end: queryEnd,
     aggrFields: JSON.stringify({
       online_or_minor_error_miners_amount_aggr: 1,
       error_miners_amount_aggr: 1,
