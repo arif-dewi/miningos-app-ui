@@ -199,9 +199,7 @@ const ManageUserModal = ({ open, onClose, user, roles }: ManageUserModalProps) =
                 const level: PermLevel = rolePerms[key] ?? false
                 return (
                   <PermissionsTableRow key={key}>
-                    <PermissionsTableCell $flex={1}>
-                      {PERMISSION_LABELS[key]}
-                    </PermissionsTableCell>
+                    <PermissionsTableCell $flex={1}>{PERMISSION_LABELS[key]}</PermissionsTableCell>
                     <IconWrapper $width="120px" $align="center">
                       <PermissionIcon level={level} />
                     </IconWrapper>
